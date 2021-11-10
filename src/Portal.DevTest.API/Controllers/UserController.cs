@@ -21,7 +21,7 @@ namespace PortalTele.DevTest.API.Controllers
         }
 
         [HttpGet("users")]
-        //[Authorize("read:messages")]
+        [Authorize("read:messages")]
         public ActionResult<List<UserModel>> GetAll()
         {
             List<UserModel> lstUsers;

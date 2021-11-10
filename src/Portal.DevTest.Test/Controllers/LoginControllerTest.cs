@@ -51,7 +51,7 @@ namespace Portal.DevTest.Test.Controllers
         }
 
         [Fact]
-        public async Task Signup_CreateNewUser_ReturnsFailed()
+        public async Task Signup_CreateNewUserFieldsInvalid_ReturnsFailed()
         {
             var builder = new DbContextOptionsBuilder<ContextSQLServer>();
             builder.UseInMemoryDatabase(Guid.NewGuid().ToString());
@@ -76,6 +76,97 @@ namespace Portal.DevTest.Test.Controllers
                 // Assert
                 Assert.IsType<BadRequestObjectResult>(result);
             }
+        }
+
+        [Fact]
+        public void Signin_UserAccessValid_ReturnOK()
+        {
+            var builder = new DbContextOptionsBuilder<ContextSQLServer>();
+            builder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var options = builder.Options;
+
+            using (var context = new ContextSQLServer(options))
+            {
+                context.Add(new UserModel() { IsActive = true, CreationDate = DateTime.Now, DisplayName = "Jupiter Dol", UserName = "jupiter.dol", Email = "nome@email.com", Password = "senha@123" });
+                context.SaveChanges();
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, UserModel>());
+                var mapper = config.CreateMapper();
+
+                //Arrange
+                var userRepository = new UserRepository(context);
+                var userService = new UserService(userRepository);
+                var loginController = new LoginController(mapper, userService, null);
+
+                ActiveViewStateValidation viewStates = new ActiveViewStateValidation();
+                var userViewModel = new UserViewModel() { DisplayName = "Jupiter Dol", UserName = "jupiter.dol", Email = "nome@email.com", Password = "senha@123" };
+                viewStates.AddViewValidate(loginController, userViewModel);
+
+                var result = loginController.Signin(userViewModel);
+
+                // Assert
+                Assert.IsType<OkObjectResult>(result);
+            }
+
+        }
+
+        [Fact]
+        public void Signin_UserAccessInvalid_ReturnBadRequest()
+        {
+            var builder = new DbContextOptionsBuilder<ContextSQLServer>();
+            builder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var options = builder.Options;
+
+            using (var context = new ContextSQLServer(options))
+            {
+                context.Add(new UserModel() { IsActive = true, CreationDate = DateTime.Now, DisplayName = "Jupiter Dol", UserName = "jupiter.dol", Email = "nome@email.com", Password = "senha@123" });
+                context.SaveChanges();
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, UserModel>());
+                var mapper = config.CreateMapper();
+
+                //Arrange
+                var userRepository = new UserRepository(context);
+                var userService = new UserService(userRepository);
+                var loginController = new LoginController(mapper, userService, null);
+
+                ActiveViewStateValidation viewStates = new ActiveViewStateValidation();
+                var userViewModel = new UserViewModel() { DisplayName = "Jupiter Dol", UserName = "jupiter.d", Email = "nome@email.com", Password = "senha@153" };
+                viewStates.AddViewValidate(loginController, userViewModel);
+
+                var result = loginController.Signin(userViewModel);
+
+                // Assert
+                Assert.IsType<BadRequestObjectResult>(result);
+            }
+
+        }
+
+        [Fact]
+        public void Signin_UserAccessFieldsInvalid_ReturnBadRequest()
+        {
+            var builder = new DbContextOptionsBuilder<ContextSQLServer>();
+            builder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+            var options = builder.Options;
+
+            using (var context = new ContextSQLServer(options))
+            {
+                var config = new MapperConfiguration(cfg => cfg.CreateMap<UserViewModel, UserModel>());
+                var mapper = config.CreateMapper();
+
+                //Arrange
+                var userRepository = new UserRepository(context);
+                var userService = new UserService(userRepository);
+                var loginController = new LoginController(mapper, userService, null);
+
+                ActiveViewStateValidation viewStates = new ActiveViewStateValidation();
+                var userViewModel = new UserViewModel() { };
+                viewStates.AddViewValidate(loginController, userViewModel);
+
+                var result = loginController.Signin(userViewModel);
+
+                // Assert
+                Assert.IsType<BadRequestObjectResult>(result);
+            }
+
         }
     }
 }

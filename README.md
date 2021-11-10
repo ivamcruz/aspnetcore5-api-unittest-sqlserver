@@ -1,9 +1,9 @@
-# Release
+# Infos Release
 
 ## Initial Setup
 - Clone this repository > git clone git@github.com:ivamcruz/aspnetcore5-api-unittest-sqlserver.git
-- Exec file start-all.sh
-- The tests will be run in the start-all.sh file
+- Exec file RUN.sh
+- The tests will be run in the (RUN.sh) file
 - Docker build will automatically download images and dependencies
 - The browser will be launched
 
@@ -30,3 +30,4 @@
     > image for container : https://hub.docker.com/repository/docker/ivamneres/portal-db
 - ASP NET CORE 5 run on Windows, with container.
 - Unit Test using xUnit and the EntityFramework using InMemoryDatabase
+- Entity Framework Core 5 for ORM Database

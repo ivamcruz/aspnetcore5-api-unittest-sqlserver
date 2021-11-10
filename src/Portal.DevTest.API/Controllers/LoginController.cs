@@ -46,11 +46,11 @@ namespace PortalTele.DevTest.API.Controllers
 
             string logsValidateUser = _userService.Login(_mapper.Map<UserModel>(userViewModel)).ToString();
 
-            if (!string.IsNullOrEmpty(logsValidateUser))
-                return BadRequest(logsValidateUser);
+            if (!string.IsNullOrEmpty(logsValidateUser.ToString()))
+                return BadRequest(logsValidateUser.ToString());
 
             if (_config == null)
-                return Ok("Bearer iOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImtDTXg0c");
+                return Ok("Bearer configUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImtDTXg0c");
 
             var client = new RestClient(_config.Value.DomainUrl);
             var request = new RestRequest(Method.POST);

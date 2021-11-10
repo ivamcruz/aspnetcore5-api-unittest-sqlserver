@@ -11,11 +11,9 @@ namespace Portal.DevTest.API.ViewModels
         [StringLength(30, MinimumLength = 6)]
         public string UserName { get; set; }
 
-        [Required()]
         [StringLength(60, MinimumLength = 6)]
         public string DisplayName { get; set; }
 
-        [Required()]
         [StringLength(100, MinimumLength = 6)]
         [EmailAddress]
         public string Email { get; set; }
