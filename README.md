@@ -1,7 +1,7 @@
 # Infos Release
 
 ## Initial Setup
-- Clone this repository > git clone git@github.com:ivamcruz/aspnetcore5-api-unittest-sqlserver.git
+- Clone this repository > git clone https://github.com/ivamcruz/aspnetcore5-api-unittest-sqlserver
 - Exec file RUN.sh
 - The tests will be run in the (RUN.sh) file
 - Docker build will automatically download images and dependencies
